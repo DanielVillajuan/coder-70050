@@ -7,7 +7,7 @@ console.log(toDay)
 
 // crear un objeto cuyas claves sean los números salidos y el valor asociado a cada clave 
 //será la cantidad de veces que salió dicho número. Representar por consola los resultados
-
+// consulta
 const resultado = {
     "2": 2,
     "1": 3,
