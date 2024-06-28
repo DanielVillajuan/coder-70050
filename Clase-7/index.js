@@ -72,6 +72,12 @@ app.delete('/api/usuario/:id',(req, res) => {
     })
 })
 
+app.get('/api/productos',(req, res) => {
+
+})
+
+// N cantidad de metodos
+
 
 app.listen(8080,() => {
     console.log('Servidor listo');
