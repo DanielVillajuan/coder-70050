@@ -6,13 +6,14 @@ export class CartManager {
         this.carts = []
     }
 
+   
 
-    async addProductToCard(id, productId){
-        this.carts = await this.getCarts();
+    async addProductToCard(id, productId){ // 'api/cart/:cid/product/:pid'
+        this.carts = await this.getCarts(); // recuperamos del archivo cart.json, toda la info del carrito o carritos
         const cardsUpdated = this.carts.map((cart)=>{
-            if(cart.id !== id) return cart
-            
-            const indexProd = cart.products.findIndex(prod => prod.id === productId);
+            if(cart.id !== id) return cart // si no es el carrito, no lo modifico
+            // saltea el if si el carrito es el recibido por parametro (id)
+            const indexProd = cart.products.findIndex(prod => prod.id === productId); // el indice del elemento en el array o -1 si no lo encontro
             if(indexProd === -1){
                 cart.products.push({ id: productId, quantity: 1 })
                 return cart;

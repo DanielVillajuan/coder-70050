@@ -26,6 +26,7 @@ app.put('/:id', async (req, res) => {
     const userUpdated = await UserModel.findByIdAndUpdate(id, {
         ...usuarioModificado // por que un spread?
     }, { new: true })
+    console.log(userUpdated)
 
     res.json({message: 'se modifico fulanido ' + id, payload: userUpdated })
 })

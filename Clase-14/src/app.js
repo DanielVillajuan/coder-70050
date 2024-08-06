@@ -6,7 +6,8 @@ const app = express();
 const PORT = 8080 || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/user/', UserRouter);
+app.use('/', ViewRouter); // endpoint pero renderiza html (vistas)
+app.use('/api/user/', UserRouter); // endpoint
 
 app.listen(PORT , () => {
     console.log('Listo server')
