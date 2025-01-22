@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 import { chatModel } from './Dao/models/Chat.model.js';
 dotenv.config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const app = express();
 const hbs = create({});
 
@@ -24,6 +24,7 @@ app.set('view engine', 'handlebars');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
+
 
 app.use('/', ViewsRouter);
 app.use('/api/product/', ProductRouter);

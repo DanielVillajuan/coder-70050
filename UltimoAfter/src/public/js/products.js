@@ -2,6 +2,7 @@ import { api } from '../constants/environments.js'
 const { base_url, endpoint_product, endpoint_cart, cart_mock } = api
 
 function renderCardsFromDataToContainer(payload, nodeContainer) {
+	// payload es todos los productos
 	payload.forEach((product) => {
 		const div = document.createElement('div')
 
@@ -47,6 +48,7 @@ function renderCardsFromDataToContainer(payload, nodeContainer) {
 
 		addCartButton.addEventListener('click', async () => {
 			try{
+				// api/carts/:cid/product/:pid
 				await fetch(base_url + endpoint_cart + cart_mock + '/' + endpoint_product + product._id, {
 					method: 'POST'
 				})
@@ -89,3 +91,6 @@ getProducts((error, data)=>{
 		renderCardsFromDataToContainer(data, productsContainer)
 	}
 });
+
+//   /products
+// 	/carts/1 

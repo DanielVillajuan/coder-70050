@@ -1,19 +1,19 @@
 import { Router } from "express";
 import { __dirname, uploader } from "../utils.js";
-import { socketServer } from "../app.js";
 import { productModel } from "../Dao/models/Product.model.js";
 
 const router = Router();
 
 router.post("/", uploader.single("file"), async (req, res) => {
-  if (!req.file) res.status(402).json({ message: "Error en algun campo" });
+  if (!req.file) return res.status(402).json({ message: "Error en algun campo" });
+	// valido todos los demas campos.
 
   const prod = req.body;
   const result = await productModel.create({
     ...prod,
     thumbnail: req.file.path.split('public')[1],
   });
-
+  
   res.status(201).json({ payload: result });
 });
 
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
   }
 
   const products = await productModel.paginate(
-    { ...query }, // le paso el resto de las consultas o filtros (nombre='',precio='',categoria=')
+    { ...query },
     { 
       limit,
       page,
@@ -50,26 +50,22 @@ router.get("/:id", async (req, res) => {
 });
 
 router.put("/:id", uploader.single("file"), async (req, res) => {
-  if (!req.file) res.status(400).json({ message: "Error en algun campo" });
-
   const { body, params } = req;
   const { id } = params;
   const product = body;
   const productUpdated = await productModel.findByIdAndUpdate(id, {
     ...product,
-    thumbnail: req.file.path,
+    ...(req?.file?.path && { thumbnail: req.file.path }),
   }, { new: true });
-  // socketServer.sockets.emit("onchangeProduct", await productList.getProducts());
-  res
-    .status(201)
-    .json({ message: "Updated successfully", payload: productUpdated });
+
+  res.status(201).json({ message: "Updated successfully", payload: productUpdated });
 });
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-   const isDelete = await productModel.findByIdAndDelete(id);
-  //   socketServer.sockets.emit("onchangeProduct", await productList.getProducts());
-  res.status(isDelete ? 200 : 400).json({ payload: isDelete});
+  const isDelete = await productModel.findByIdAndDelete(id);
+
+  res.status(isDelete ? 200 : 400).json({ payload: isDelete });
 });
 
 export default router;
